@@ -23,7 +23,7 @@ function Base.show(io::IO, seq::Sequence)
 end
 
 
-function Base.show(io::IO, twi::T) where {T <: Union{DecoupledTwiss,RipkenTwiss,EdwardsTengTwiss}}
+function Base.show(io::IO, twi::T) where {T <: Union{RipkenTwiss,EdwardsTengTwiss}}
 	println(io,typeof(twi))
 	for name in fieldnames(typeof(twi))
 		println(io,lpad(name,12," ")*" : $(getfield(twi,name))")
