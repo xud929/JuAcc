@@ -77,7 +77,9 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 			end
 		end
 	else
-		throw(AssertionError("Mode should be integer 1 or 2."))
+		#throw(AssertionError("Mode should be integer 1 or 2."))
+		println(stderr,"Invalid mode.")
+		return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
 	end
 
 	Nx=_matrixTransform_2by2(X)
