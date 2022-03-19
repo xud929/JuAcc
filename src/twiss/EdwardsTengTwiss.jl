@@ -100,7 +100,6 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 	return EdwardsTengTwiss([v1[1],v2[1]],[v1[2],v2[2]],[v1[3],v2[3]],eta,[smux,cmux,smuy,cmuy],R,mode)
 end
 
-
 function twissPropagate(tin::AbstractTwiss,seq::Sequence,beam::AbstractBeam=_beam[])
 	ret=Vector{typeof(tin)}(undef,1+length(seq))
 	ss=zeros(RealType,length(ret))
@@ -115,3 +114,51 @@ function twissPropagate(tin::AbstractTwiss,seq::Sequence,beam::AbstractBeam=_bea
 	end
 	return ss,names,StructArray(ret)
 end
+
+
+function periodicEdwardsTengTwiss(M::Matrix{RealType})
+	A=@view M[1:2,1:2]
+	B=@view M[1:2,3:4]
+	C=@view M[3:4,1:2]
+	D=@view M[3:4,3:4]
+	invalid_ret=EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+
+	Bbar_and_C=_symplectic_conjugate_2by2(B)+C
+	t1=0.5*(tr(A)-tr(D))
+	Δ=t1*t1+det(Bbar_and_C)
+	Δ<RealType(0) && (println(stderr,"Failed to decouple periodic transfer matrix. The linear matrix is unstable.");return invalid_ret)
+
+	_sign= t1>RealType(0) ? RealType(-1) : RealType(1)
+
+	t2=abs(t1)+sqrt(Δ)
+	if t2==RealType(0)
+		R=RealType[0 0;0 0]
+	else
+		R=Bbar_and_C*(_sign/t2)
+	end
+
+	X=A-B*R
+	Y=D+C*_symplectic_conjugate_2by2(R)
+
+	# It should be equal to 1
+	(det(X)<RealType(0.9) || det(Y)<RealType(0.9))  && (println(stderr,"Failed to decouple the periodic transfer matrix with mode 1.");return invalid_ret)
+
+	cmux=RealType(0.5)*(X[1,1]+X[2,2])
+	cmuy=RealType(0.5)*(Y[1,1]+Y[2,2])
+	(RealType(-1)<cmux<RealType(1) && RealType(-1)<cmuy<RealType(1)) || (println(stderr,"Failed to get beta functions. The linear matrix is unstable.");return invalid_ret)
+
+	smux=sqrt(RealType(1)-cmux*cmux)*sign(X[1,2])
+	smuy=sqrt(RealType(1)-cmuy*cmuy)*sign(Y[1,2])
+	betx=X[1,2]/smux
+	gamx=-X[2,1]/smux
+	bety=Y[1,2]/smuy
+	gamy=-Y[2,1]/smuy
+
+	alfx=RealType(0.5)*(X[1,1]-X[2,2])/smux
+	alfy=RealType(0.5)*(Y[1,1]-Y[2,2])/smuy
+
+	eta=inv(Matrix{RealType}(I,(4,4))-(@view M[1:4,1:4]))*(@view M[1:4,6])
+	return EdwardsTengTwiss([betx,bety],[alfx,alfy],[gamx,gamy],eta,[smux,cmux,smuy,cmuy],R,IntType(1))
+end
+
+

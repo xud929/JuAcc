@@ -8,7 +8,7 @@ export Drift,Quadrupole,ThinQuad,RBend,SBend,DipEdge,DipBody,Solenoid,Marker,Lor
 export AbstractDrift,AbstractQuad,AbstractBend,AbstractSolenoid,AbstractMarker,AbstractBoost,AbstractCrabCavity,AbstractSequence
 export showDefaultBeam,setDefaultBeam,Beam,@DefaultBeam,@Beam
 export transferMatrix,transferMatrixAll
-export RipkenTwiss,EdwardsTengTwiss,twissPropagate
+export RipkenTwiss,EdwardsTengTwiss,periodicEdwardsTengTwiss,twissPropagate
 export getIndexByName,getIndexByClass,refS,refSAll,makeThin
 
 const RealType = Float64
