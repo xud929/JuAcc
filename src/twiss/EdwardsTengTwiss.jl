@@ -164,3 +164,33 @@ function periodicEdwardsTengTwiss(M::Matrix{RealType})
 end
 
 
+function normalMatrix(tin::EdwardsTengTwiss)
+	(tin.mode==IntType(1) || tin.mode==IntType(2)) || begin
+		println(stderr,"Warning: return identity matrix for unknown mode $(tin.mode) as the normal matrix (transformation matrix from normal space to physical space).")
+		return RealType(1)*Matrix{RealType}(I,6,6)
+	end
+	D=RealType[1 0 0 0 0 tin.eta[1]
+			   0 1 0 0 0 tin.eta[2]
+			   0 0 1 0 0 tin.eta[3]
+			   0 0 0 1 0 tin.eta[4]
+			   -tin.eta[2] tin.eta[1] -tin.eta[4] tin.eta[3] 1 0
+			   0 0 0 0 0 1]
+	sbx,sby=sqrt.(tin.beta)
+	B=RealType[sbx 0 0 0 0 0
+			   -tin.alpha[1]/sbx 1/sbx 0 0 0 0
+			   0 0 sby 0 0 0
+			   0 0 -tin.alpha[2]/sby 1/sby 0 0
+			   0 0 0 0 1 0
+			   0 0 0 0 0 1]
+	λ=RealType(1)/sqrt(abs(RealType(1)+det(tin.R)))
+	R=λ*tin.R
+	_R=_symplectic_conjugate_2by2(R)
+	O=RealType[0 0;0 0]
+	U=RealType[λ 0;0 λ]
+	if tin.mode==IntType(1)
+		V=[U _R O;-R U O;O O I]
+	else
+		V=[_R U O;U -R O;O O I]
+	end
+	return D*V*B
+end
