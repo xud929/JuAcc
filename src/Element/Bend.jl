@@ -26,7 +26,7 @@ mutable struct RBend <: AbstractBend
     Name::String
 end
 
-RBend(;L::RealType,Angle::RealType,K1::RealType=0.0,E1::RealType=0.0,E2::RealType=0.0,FInt1=0.0,FInt2=0.0,Name::String="")=RBend(L,Angle,K1,E1,E2,FInt1,FInt2,Name)
+RBend(;L::RealType,Angle::RealType,K1::RealType=0.0,E1::RealType=0.0,E2::RealType=0.0,FInt1::RealType=0.0,FInt2::RealType=0.0,Name::String="")=RBend(L,Angle,K1,E1,E2,FInt1,FInt2,Name)
 
 mutable struct DipEdge <: AbstractBend
 	H::RealType

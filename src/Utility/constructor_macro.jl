@@ -20,6 +20,7 @@ macro SBend(name::Symbol,kwargs...) magnetDef(:SBend,name,kwargs...) end
 macro Solenoid(name::Symbol,kwargs...) magnetDef(:Solenoid,name,kwargs...) end
 macro Marker(name::Symbol,kwargs...) magnetDef(:Marker,name,kwargs...) end
 macro ThinCrabCavity(name::Symbol,kwargs...) magnetDef(:ThinCrabCavity,name,kwargs...) end
+macro ThinKicker(name::Symbol,kwargs...) magnetDef(:ThinKicker,name,kwargs...) end
 macro LorentzBoost(name::Symbol,kwargs...) magnetDef(:LorentzBoost,name,kwargs...) end
 macro RevLorentzBoost(name::Symbol,kwargs...) magnetDef(:RevLorentzBoost,name,kwargs...) end
 macro Beam(name::Symbol,kwargs...) magnetDef(:Beam,name,kwargs...) end

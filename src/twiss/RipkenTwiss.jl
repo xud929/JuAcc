@@ -18,19 +18,49 @@ end
 #RipkenTwiss(twi::EdwardsTengTwiss)=RipkenTwiss(RealType[twi.beta[1] 0;0 twi.beta[1]],RealType[twi.alpha[1] 0;0 twi.alpha[2]],twi.eta,
 											 #twi.sc_mu,RealType[0;1;0;1],RealType(0))
 
-#=
-RipkenTwiss(t::EdwardsTengTwiss)=begin
-	c2=det(t.R)
-	u=RealType(1)-c2
-	if c2!=RealType(0)
-		r11,r21,r12,r22=t.R*sqrt(u/c2)
+function RipkenTwiss(t::EdwardsTengTwiss)
+	R=t.R
+	if t.mode == IntType(1)
+		cc=RealType(1)/(RealType(1)+det(R))
+		u=RealType(1)-cc
+		a11,a22=t.alpha * cc
+		b11,b22=t.beta * cc
+		b12=t.gamma[1]*(R[1,2])^2-2*(t.alpha[1])*R[1,1]*R[1,2]+t.beta[1]*(R[1,1])^2
+		b12*=cc
+		b21=t.gamma[2]*(R[1,2])^2-2*(t.alpha[2])*R[1,2]*R[2,2]+t.beta[2]*(R[2,2])^2
+		b21*=cc
+		_x=R[1,1]*R[2,2]+R[1,2]*R[2,1]
+		a12=-t.gamma[1]*R[1,2]*R[2,2]+t.alpha[1]*_x-t.beta[1]*R[1,1]*R[2,1]
+		a12*=cc
+		a21=t.gamma[2]*R[1,1]*R[1,2]+t.alpha[2]*_x+t.beta[2]*R[2,1]*R[2,2]
+		a21*=cc
+
+		_x1=t.alpha[1]*R[1,2]-t.beta[1]*R[1,1]
+		_x2=R[1,2]
+		_xx=sqrt(_x1*_x1+_x2*_x2)
+		if _xx==RealType(0)
+			cnu1=RealType(1)
+			snu1=RealType(0)
+		else
+			cnu1=_x1/_xx
+			snu1=_x2/_xx
+		end
+
+		_y1=t.alpha[2]*R[1,2]+t.beta[2]*R[2,2]
+		_y2=R[1,2]
+		_yy=sqrt(_y1*_y1+_y2*_y2)
+		if _yy==RealType(0)
+			cnu2=RealType(1)
+			snu2=RealType(0)
+		else
+			cnu2=_y1/_yy
+			snu2=_y2/_yy
+		end
+		return RipkenTwiss([b11 b12;b21 b22],[a11 a12;a21 a22],t.eta,t.sc_mu,[snu1,cnu1,snu2,cnu2],u)
+	elseif t.mode == IntType(2)
 	else
-		r11=r21=r12=r22=RealType(0)
 	end
-	a11,a22=t.alpha * c2
-	b11,b22=t.beta * c2
 end
-=#
 
 
 

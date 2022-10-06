@@ -118,7 +118,7 @@ function twissPropagate(tin::AbstractTwiss,seq::Sequence,beam::AbstractBeam=_bea
 end
 
 
-function periodicEdwardsTengTwiss(M::Matrix{RealType})
+function periodicEdwardsTengTwiss(M::Matrix{RealType};output_warning=true)
 	A=@view M[1:2,1:2]
 	B=@view M[1:2,3:4]
 	C=@view M[3:4,1:2]
@@ -128,7 +128,12 @@ function periodicEdwardsTengTwiss(M::Matrix{RealType})
 	Bbar_and_C=_symplectic_conjugate_2by2(B)+C
 	t1=0.5*(tr(A)-tr(D))
 	Δ=t1*t1+det(Bbar_and_C)
-	Δ<RealType(0) && (println(stderr,"Failed to decouple periodic transfer matrix. The linear matrix is unstable.");return invalid_ret)
+	Δ<RealType(0) && begin
+		if output_warning
+			println(stderr,"Failed to decouple periodic transfer matrix. The linear matrix is unstable.")
+		end
+		return invalid_ret
+	end
 
 	_sign= t1>RealType(0) ? RealType(-1) : RealType(1)
 
@@ -143,11 +148,21 @@ function periodicEdwardsTengTwiss(M::Matrix{RealType})
 	Y=D+C*_symplectic_conjugate_2by2(R)
 
 	# It should be equal to 1
-	(det(X)<RealType(0.9) || det(Y)<RealType(0.9))  && (println(stderr,"Failed to decouple the periodic transfer matrix with mode 1.");return invalid_ret)
+	(det(X)<RealType(0.9) || det(Y)<RealType(0.9))  && begin
+		if output_warning
+			println(stderr,"Failed to decouple the periodic transfer matrix with mode 1.")
+		end
+		return invalid_ret
+	end
 
 	cmux=RealType(0.5)*(X[1,1]+X[2,2])
 	cmuy=RealType(0.5)*(Y[1,1]+Y[2,2])
-	(RealType(-1)<cmux<RealType(1) && RealType(-1)<cmuy<RealType(1)) || (println(stderr,"Failed to get beta functions. The linear matrix is unstable.");return invalid_ret)
+	(RealType(-1)<cmux<RealType(1) && RealType(-1)<cmuy<RealType(1)) || begin
+		if output_warning
+			println(stderr,"Failed to get beta functions. The linear matrix is unstable.")
+		end
+		return invalid_ret
+	end
 
 	smux=sqrt(RealType(1)-cmux*cmux)*sign(X[1,2])
 	smuy=sqrt(RealType(1)-cmuy*cmuy)*sign(Y[1,2])

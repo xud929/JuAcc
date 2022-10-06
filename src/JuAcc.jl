@@ -3,9 +3,9 @@ module JuAcc
 import Unicode
 using LinearAlgebra,StructArrays,StaticArrays
 
-export @Drift,@Quadrupole,@ThinQuad,@RBend,@SBend,@Solenoid,@Marker,@LorentzBoost,@RevLorentzBoost,@ThinCrabCavity,@Sequence,@DipEdge,@DipBody
-export Drift,Quadrupole,ThinQuad,RBend,SBend,DipEdge,DipBody,Solenoid,Marker,LorentzBoost,RevLorentzBoost,ThinCrabCavity,Sequence
-export AbstractDrift,AbstractQuad,AbstractBend,AbstractSolenoid,AbstractMarker,AbstractBoost,AbstractCrabCavity,AbstractSequence
+export @Drift,@Quadrupole,@ThinQuad,@RBend,@SBend,@Solenoid,@Marker,@LorentzBoost,@RevLorentzBoost,@ThinCrabCavity,@Sequence,@DipEdge,@DipBody,@ThinKicker
+export Drift,Quadrupole,ThinQuad,RBend,SBend,DipEdge,DipBody,Solenoid,Marker,LorentzBoost,RevLorentzBoost,ThinCrabCavity,Sequence,ThinKicker
+export AbstractDrift,AbstractQuad,AbstractBend,AbstractSolenoid,AbstractMarker,AbstractBoost,AbstractCrabCavity,AbstractSequence,AbstractKicker
 export showDefaultBeam,setDefaultBeam,Beam,@DefaultBeam,@Beam
 export transferMatrix,transferMatrixAll
 export RipkenTwiss,EdwardsTengTwiss,periodicEdwardsTengTwiss,twissPropagate,normalMatrix
