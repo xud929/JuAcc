@@ -34,10 +34,12 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 
 	R1=tin.R
 	_R1=_symplectic_conjugate_2by2(R1)
+	#flip_criteria=RealType(0.1)
+	flip_criteria=RealType(0)
 	if tin.mode == IntType(1)
 		X=A-B*R1
 		begin t=det(X)
-			if t>RealType(0.1)
+			if t>flip_criteria
 				R=(D*R1-C)*_symplectic_conjugate_2by2(X)
 				R/=t
 				X/=sqrt(t)
@@ -58,7 +60,7 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 	elseif tin.mode == IntType(2) 
 		X=B+A*_R1
 		begin t=det(X)
-			if t>RealType(0.1)
+			if t>flip_criteria
 				R=-(D+C*_R1)*_symplectic_conjugate_2by2(X)
 				R/=t
 				X/=sqrt(t)
@@ -78,7 +80,7 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 		end
 	else
 		#throw(AssertionError("Mode should be integer 1 or 2."))
-		println(stderr,"Invalid mode.")
+		#println(stderr,"Invalid mode.")
 		return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
 	end
 
@@ -86,6 +88,9 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 	Ny=_matrixTransform_2by2(Y)
 	v1=Nx*[tin.beta[1];tin.alpha[1];tin.gamma[1]]
 	v2=Ny*[tin.beta[2];tin.alpha[2];tin.gamma[2]]
+	if ((v1[1]<=RealType(0)) || (v2[1]<=RealType(0)))
+		return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+	end
 
 	eta=(@view M[1:4,1:4])*tin.eta+(@view M[1:4,6])
 	sin_dmux=X[1,2]/sqrt(v1[1]*tin.beta[1])
