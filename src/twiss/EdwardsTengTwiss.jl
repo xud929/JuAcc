@@ -44,13 +44,24 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 				R/=t
 				X/=sqrt(t)
 				Y=D+C*_R1
-				Y/=sqrt(det(Y))
+				t=det(Y)
+				if t<flip_criteria
+					return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+				end
+				Y/=sqrt(t)
 				mode=IntType(1)
 			else
 				X=C-D*R1
-				X/=sqrt(det(X))
+				t2=det(X)
+				if t2<flip_criteria
+					return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+				end
+				X/=sqrt(t2)
 				Y=B+A*_R1
 				t=det(Y)
+				if t<flip_criteria
+					return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+				end
 				R=-(D+C*_R1)*_symplectic_conjugate_2by2(Y)
 				R/=t
 				Y/=sqrt(t)
@@ -65,13 +76,24 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 				R/=t
 				X/=sqrt(t)
 				Y=C-D*R1
-				Y/=sqrt(det(Y))
+				t=det(Y)
+				if t<flip_criteria
+					return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+				end
+				Y/=sqrt(t)
 				mode=IntType(1)
 			else
 				X=D+C*_R1
-				X/=sqrt(det(X))
+				t2=det(X)
+				if t2<flip_criteria
+					return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+				end
+				X/=sqrt(t2)
 				Y=A-B*R1
 				t=det(Y)
+				if t<flip_criteria
+					return EdwardsTengTwiss(;betx=RealType(1),bety=RealType(1),mode=IntType(0))
+				end
 				R=(D*R1-C)*_symplectic_conjugate_2by2(Y)
 				R/=t
 				Y/=sqrt(t)
