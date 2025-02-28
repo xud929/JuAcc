@@ -121,3 +121,9 @@ function transferMatrix(mag::DipBody,beam::AbstractBeam=_beam[])
 	dx=h0
 	return _sectorBodyMatrix(mag.L,h0,dx,Kx,Ky,rx,ry,beam.β0,beam.βγ0)
 end
+
+function transferMatrix(mag::ThinBend,beam::AbstractBeam=_beam[])
+    M=RealType(1)*Matrix(I,(6,6))
+	M[2,6]=mag.Angle
+	return M
+end

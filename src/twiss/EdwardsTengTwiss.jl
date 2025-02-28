@@ -206,7 +206,7 @@ function periodicEdwardsTengTwiss(M::Matrix{RealType};output_warning=true)
 end
 
 
-function normalMatrix(tin::EdwardsTengTwiss)
+function normalMatrix(tin::EdwardsTengTwiss;separate=false)
 	(tin.mode==IntType(1) || tin.mode==IntType(2)) || begin
 		println(stderr,"Warning: return identity matrix for unknown mode $(tin.mode) as the normal matrix (transformation matrix from normal space to physical space).")
 		return RealType(1)*Matrix{RealType}(I,6,6)
@@ -234,5 +234,36 @@ function normalMatrix(tin::EdwardsTengTwiss)
 	else
 		V=[_R U O;U -R O;O O I]
 	end
-	return D*V*B
+	if separate
+		return D,V,B
+	else
+		return D*V*B
+	end
+end
+
+function transferMatrix(tw1::EdwardsTengTwiss,tw2::EdwardsTengTwiss)
+	for tin in (tw1,tw2)
+		(tin.mode==IntType(1) || tin.mode==IntType(2)) || begin
+			println(stderr,"Warning: return identity matrix for unknown mode $(tin.mode) as the normal matrix (transformation matrix from normal space to physical space).")
+			return RealType(1)*Matrix{RealType}(I,6,6)
+		end
+	end
+	U1=normalMatrix(tw1)
+	U2=normalMatrix(tw2)
+	sx1,cx1,sy1,cy1=tw1.sc_mu
+	sx2,cx2,sy2,cy2=tw2.sc_mu
+	ssx=sx2*cx1-cx2*sx1
+	ccx=cx2*cx1+sx2*sx1
+	ssy=sy2*cy1-cy2*sy1
+	ccy=cy2*cy1+sy2*sy1
+	R=RealType[ccx ssx 0 0 0 0;-ssx ccx 0 0 0 0;0 0 ccy ssy 0 0;0 0 -ssy ccy 0 0;0 0 0 0 1 0;0 0 0 0 0 1]
+	M=U2*R*inv(U1)
+	return M
+end
+
+
+function transferMatrix(tw1::EdwardsTengTwiss,tw2::EdwardsTengTwiss,r56::RealType)
+	M=transferMatrix(tw1,tw2)
+	M[5,6]=r56
+	return M
 end

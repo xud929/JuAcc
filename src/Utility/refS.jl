@@ -2,7 +2,7 @@
 refS(mag::AbstractElement)=mag.L
 refS(mag::RBend)=(th=mag.Angle/RealType(2);th/sin(th)*mag.L)
 
-for magType in [:ThinQuad,:Marker,:ThinCrabCavity,:LorentzBoost,:RevLorentzBoost,:DipEdge,:ThinKicker]
+for magType in [:ThinQuad,:Marker,:ThinCrabCavity,:LorentzBoost,:RevLorentzBoost,:DipEdge,:ThinKicker,:ThinMultipole]
 	eval(quote
 		 refS(::$(magType))=RealType(0)
    end)

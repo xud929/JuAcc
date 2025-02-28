@@ -45,3 +45,10 @@ mutable struct DipBody <: AbstractBend
 end
 
 DipBody(;L::RealType,Angle::RealType,K1::RealType=0.0,Name::String="")=DipBody(L,Angle,K1,Name)
+
+mutable struct ThinBend <: AbstractBend
+    Angle::RealType
+    Name::String
+end
+
+ThinBend(;Angle::RealType,Name::String="")=ThinBend(Angle,Name)

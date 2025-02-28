@@ -40,20 +40,57 @@ function getTypes(seq::AbstractSequence)
     return ret
 end
 
-function getIndexByName(seq::AbstractSequence,name::String)
+function getIndexByName(seq::AbstractSequence,name::String;first=false,last=false)
+	if first
+		for i = 1:length(seq.Line)
+			(Unicode.normalize(name, casefold=true) == Unicode.normalize(seq.Line[i].Name, casefold=true)) && (return i)
+		end 
+	elseif last
+		for i = length(seq.Line):-1:1
+			(Unicode.normalize(name, casefold=true) == Unicode.normalize(seq.Line[i].Name, casefold=true)) && (return i)
+		end 
+	end
     ret=Array{Int64,1}()
     for i = 1:length(seq.Line)
-        if Unicode.normalize(name, casefold=true) == Unicode.normalize(seq.Line[i].Name)
+        if Unicode.normalize(name, casefold=true) == Unicode.normalize(seq.Line[i].Name, casefold=true)
             push!(ret,i)
         end
     end 
     return ret 
 end
 
-function getIndexByClass(seq::AbstractSequence,cls::Type{U}) where {U <: AbstractElement}
+function getIndexByClass(seq::AbstractSequence,cls::Type{U};first=false,last=false) where {U <: AbstractElement}
+	if first
+		for i = 1:length(seq.Line)
+			isa(seq.Line[i], cls) && (return i)
+		end
+	elseif last
+		for i = length(seq.Line):-1:1
+			isa(seq.Line[i], cls) && (return i)
+		end
+	end
     ret=Array{Int64,1}()
     for i = 1:length(seq.Line)
         if isa(seq.Line[i], cls)
+            push!(ret,i)
+        end
+    end 
+    return ret 
+end
+
+function getIndexByRegex(seq::AbstractSequence,re::Regex;first=false,last=false)
+	if first
+		for i = 1:length(seq.Line)
+			occursin(re,seq.Line[i].Name) && (return i)
+		end
+	elseif last
+		for i = length(seq.Line):-1:1
+			occursin(re,seq.Line[i].Name) && (return i)
+		end
+	end
+    ret=Array{Int64,1}()
+    for i = 1:length(seq.Line)
+		if occursin(re,seq.Line[i].Name)
             push!(ret,i)
         end
     end 

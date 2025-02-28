@@ -1,9 +1,27 @@
 makeThin(mag::AbstractElement,step::RealType)=Sequence([mag])
 
-function makeThin(mag::Drift,step::RealType)
+function makeThin(mag::T,step::RealType) where {T <: Union{Drift,HMonitor,VMonitor,Monitor,Instrument,Placeholder}}
 	step < mag.L || (return Sequence([mag]))
 	nn,rr=fldmod(refS(mag),step)
-	return Drift(;L=step)^floor(Integer,nn)*Drift(;L=rr)
+	return T(;L=step)^floor(Integer,nn)*T(;L=rr)
+end
+
+function makeThin(mag::Kicker,step::RealType)
+	step < mag.L || (return Sequence([mag]))
+	nn,rr=fldmod(refS(mag),step)
+	return Kicker(;L=step)^floor(Integer,nn)*Kicker(;L=rr,HKick=mag.HKick,VKick=mag.VKick)
+end
+
+function makeThin(mag::HKicker,step::RealType)
+	step < mag.L || (return Sequence([mag]))
+	nn,rr=fldmod(refS(mag),step)
+	return HKicker(;L=step)^floor(Integer,nn)*HKicker(;L=rr,Kick=mag.Kick)
+end
+
+function makeThin(mag::VKicker,step::RealType)
+	step < mag.L || (return Sequence([mag]))
+	nn,rr=fldmod(refS(mag),step)
+	return VKicker(;L=step)^floor(Integer,nn)*VKicker(;L=rr,Kick=mag.Kick)
 end
 
 function makeThin(mag::Quadrupole,step::RealType)
