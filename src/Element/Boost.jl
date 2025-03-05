@@ -1,5 +1,5 @@
 
-abstract type AbstractBoost <: AbstractElement end
+abstract type AbstractBoost <: AbstractTransformation end
 
 mutable struct LorentzBoost <: AbstractBoost
 	θc::RealType

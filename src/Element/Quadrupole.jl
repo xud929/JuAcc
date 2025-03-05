@@ -1,4 +1,4 @@
-abstract type AbstractQuad <: AbstractElement end 
+abstract type AbstractQuad <: AbstractDevice end 
 
 mutable struct Quadrupole <: AbstractQuad
     L::RealType

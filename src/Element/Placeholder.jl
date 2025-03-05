@@ -1,5 +1,5 @@
 
-abstract type AbstractPlaceholder <: AbstractElement end 
+abstract type AbstractPlaceholder <: AbstractDevice end 
 
 mutable struct Placeholder <: AbstractPlaceholder
 	L::RealType

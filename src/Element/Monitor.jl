@@ -1,5 +1,5 @@
 
-abstract type AbstractMonitor <: AbstractElement end 
+abstract type AbstractMonitor <: AbstractDevice end 
 
 mutable struct Monitor <: AbstractMonitor
 	L::RealType

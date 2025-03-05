@@ -128,7 +128,7 @@ function WriteSequenceToJuliaStream(seq::Sequence,cell::String, io; output_eleme
 end # of function
 
 
-function WriteSequenceToFileInMadX(seq::Sequence,filename::String, cell::String; output_elements=true, mode="w")
+function WriteSequenceToFileInMadX(seq::Sequence,filename::String, cell::String; output_elements=true, output_sequence=true, mode="w")
 	open(filename,mode) do io
 		output_elements && begin
 			index=getIndexByClass(seq,Marker)
@@ -260,8 +260,10 @@ function WriteSequenceToFileInMadX(seq::Sequence,filename::String, cell::String;
 
 		end # of elements output
 
-		names=join([seq[i].Name for i in 1:length(seq)],", ")
-		print(io, "$(cell) : LINE = ($(names));\n")
+		if output_sequence
+			names=join([seq[i].Name for i in 1:length(seq)],", ")
+			print(io, "$(cell) : LINE = ($(names));\n")
+		end
 	end # of open file
 		
 	return

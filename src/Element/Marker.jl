@@ -1,4 +1,4 @@
-abstract type AbstractMarker <: AbstractElement end
+abstract type AbstractMarker <: AbstractDevice end
 
 mutable struct Marker <: AbstractMarker
 	Name::String

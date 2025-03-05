@@ -1,5 +1,5 @@
 
-abstract type AbstractMultipole <: AbstractElement end 
+abstract type AbstractMultipole <: AbstractDevice end 
 
 mutable struct ThinMultipole <: AbstractMultipole
 	KnL::Vector{RealType}

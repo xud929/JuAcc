@@ -1,6 +1,6 @@
 
 
-abstract type AbstractCrabCavity <: AbstractElement end 
+abstract type AbstractCrabCavity <: AbstractDevice end 
 
 mutable struct ThinCrabCavity <: AbstractCrabCavity
 	Strength::Tuple{RealType,RealType}

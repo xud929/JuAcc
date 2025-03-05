@@ -13,7 +13,12 @@ function Base.show(io::IO, seq::Sequence)
     types=getTypes(seq)
     ret=String[]
 	index=0
-	println(io,typeof(seq))
+	#println(io,typeof(seq))
+	if isempty(seq.Name)
+		push!(ret,"$(typeof(seq)), Depth=$(seq.Depth)")
+	else
+		push!(ret,"$(typeof(seq)), Name=$(seq.Name), Depth=$(seq.Depth)")
+	end
     for (name,type) in zip(names,types)
 		index+=1
         temp=isempty(name) ? "$(type)" : "$(name):$(type)"

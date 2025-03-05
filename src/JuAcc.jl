@@ -9,19 +9,19 @@ export AbstractDrift,AbstractQuad,AbstractBend,AbstractSolenoid,AbstractMarker,A
 export showDefaultBeam,setDefaultBeam,Beam,@DefaultBeam,@Beam
 export transferMatrix,transferMatrixAll
 export RipkenTwiss,EdwardsTengTwiss,periodicEdwardsTengTwiss,twissPropagate,normalMatrix
-export getIndexByName,getIndexByClass,getIndexByRegex,refS,refSAll,makeThin
+export getIndexByName,getIndexByClass,getIndexByRegex,refS,refSAll,makeThin,flatten,sequenceSummary
 
-export plot,WriteSequenceToJuliaStream,WriteSequenceToFileInMadX,ReadSequenceFromTFS
+export plot,WriteSequenceToJuliaStream,WriteSequenceToFileInMadX,ReadSequenceFromTFS,survey
 
 const RealType = Float64
 const IntType = Int64
 
 include("Element/main.jl")
 include("Beam/main.jl")
-include("Sequence/main.jl")
 
 include("transferMatrix/main.jl")
 include("twiss/main.jl")
 include("Utility/main.jl")
+include("survey/main.jl")
 
 end # module JuAcc

@@ -130,18 +130,15 @@ function twissPropagate(tin::EdwardsTengTwiss,M::Matrix{RealType})
 end
 
 function twissPropagate(tin::AbstractTwiss,seq::Sequence,beam::AbstractBeam=_beam[])
+	sumy=sequenceSummary(seq)
 	ret=Vector{typeof(tin)}(undef,1+length(seq))
-	ss=zeros(RealType,length(ret))
-	names=Vector{String}(undef,length(ret))
 	ret[1]=tin
-	names[1]="Start"
 	for (index,mag) in enumerate(seq.Line)
 		M=transferMatrix(mag,beam)
 		ret[index+1]=twissPropagate(ret[index],M)
-		ss[index+1]=refS(mag)+ss[index]
-		names[index+1]=mag.Name
 	end
-	return ss,names,StructArray(ret)
+	ret=StructArray(ret)
+	return StructArray(merge(StructArrays.components(sumy),StructArrays.components(ret)))
 end
 
 

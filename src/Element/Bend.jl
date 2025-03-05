@@ -1,6 +1,6 @@
 
 
-abstract type AbstractBend <: AbstractElement end 
+abstract type AbstractBend <: AbstractDevice end 
 
 mutable struct SBend <: AbstractBend
     L::RealType

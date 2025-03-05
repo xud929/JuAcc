@@ -1,6 +1,6 @@
 
 
-abstract type AbstractRFCavity <: AbstractElement end 
+abstract type AbstractRFCavity <: AbstractDevice end 
 
 mutable struct ThinRFCavity <: AbstractRFCavity
 	Voltage::RealType

@@ -1,5 +1,5 @@
 
-abstract type AbstractSolenoid <: AbstractElement end
+abstract type AbstractSolenoid <: AbstractDevice end
 
 mutable struct Solenoid <: AbstractSolenoid
     L::RealType

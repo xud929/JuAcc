@@ -35,4 +35,5 @@ macro Monitor(name::Symbol,kwargs...) magnetDef(:Monitor,name,kwargs...) end
 macro HMonitor(name::Symbol,kwargs...) magnetDef(:HMonitor,name,kwargs...) end
 macro VMonitor(name::Symbol,kwargs...) magnetDef(:VMonitor,name,kwargs...) end
 macro Beam(name::Symbol,kwargs...) magnetDef(:Beam,name,kwargs...) end
-macro Sequence(name::Symbol,kwargs...) magnetDefWithoutName(:Sequence,name,kwargs...) end
+#macro Sequence(name::Symbol,kwargs...) magnetDefWithoutName(:Sequence,name,kwargs...) end
+macro Sequence(name::Symbol,kwargs...) magnetDef(:Sequence,name,kwargs...) end

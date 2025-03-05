@@ -1,5 +1,5 @@
 
-abstract type AbstractKicker <: AbstractElement end 
+abstract type AbstractKicker <: AbstractDevice end 
 
 mutable struct ThinKicker <: AbstractKicker
 	HKick::RealType

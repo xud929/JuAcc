@@ -1,5 +1,5 @@
 
-abstract type AbstractDrift <: AbstractElement end 
+abstract type AbstractDrift <: AbstractDevice end 
 
 mutable struct Drift <: AbstractDrift
 	L::RealType
