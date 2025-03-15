@@ -222,9 +222,9 @@ function WriteSequenceToFileInMadX(seq::Sequence,filename::String, cell::String;
 			for mag in mags[uniq_index]
 				fmt_str="%s : SBEND, L = %.15e, ANGLE = %.15e"
 				value=Float64[mag.L,mag.Angle]
-				abs(mag.K1) > 1e-15 && (fmt_str*=" K1 = %.15e";push!(value,mag.K1))
-				abs(mag.E1) > 1e-15 && (fmt_str*=" E1 = %.15e";push!(value,mag.E1))
-				abs(mag.E2) > 1e-15 && (fmt_str*=" E2 = %.15e";push!(value,mag.E2))
+				abs(mag.K1) > 1e-15 && (fmt_str*=", K1 = %.15e";push!(value,mag.K1))
+				abs(mag.E1) > 1e-15 && (fmt_str*=", E1 = %.15e";push!(value,mag.E1))
+				abs(mag.E2) > 1e-15 && (fmt_str*=", E2 = %.15e";push!(value,mag.E2))
 				fmt_str*=";\n"
 				fmt=Printf.Format(fmt_str)
 				Printf.format(io,fmt,mag.Name,value...)

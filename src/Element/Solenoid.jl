@@ -7,4 +7,4 @@ mutable struct Solenoid <: AbstractSolenoid
     Name::String
 end
 
-Solenoid(;L::RealType,KS::RealType,Name::String="")=Solenoid(L,KS,Name)
+Solenoid(;L::RealType=RealType(0),KS::RealType=RealType(0),Name::String="")=Solenoid(L,KS,Name)

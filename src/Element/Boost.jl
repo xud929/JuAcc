@@ -7,7 +7,7 @@ mutable struct LorentzBoost <: AbstractBoost
 	Name::String
 end
 
-LorentzBoost(;θc::RealType,θs::RealType=RealType(0),Name::String="")=LorentzBoost(θc,θs,Name)
+LorentzBoost(;θc::RealType=RealType(0),θs::RealType=RealType(0),Name::String="")=LorentzBoost(θc,θs,Name)
 
 
 mutable struct RevLorentzBoost <: AbstractBoost
@@ -16,4 +16,4 @@ mutable struct RevLorentzBoost <: AbstractBoost
 	Name::String
 end
 
-RevLorentzBoost(;θc::RealType,θs::RealType=RealType(0),Name::String="")=RevLorentzBoost(θc,θs,Name)
+RevLorentzBoost(;θc::RealType=RealType(0),θs::RealType=RealType(0),Name::String="")=RevLorentzBoost(θc,θs,Name)

@@ -10,7 +10,7 @@ mutable struct ThinCrabCavity <: AbstractCrabCavity
     Name::String
 end
 
-function ThinCrabCavity(;Strength::Tuple{RealType,RealType},Frequency::RealType,Phase::RealType=0.0,Name::String="")
+function ThinCrabCavity(;Strength::Tuple{RealType,RealType}=RealType(0),Frequency::RealType=RealType(1e8),Phase::RealType=0.0,Name::String="")
 	Kcc::Float64=2pi*Frequency/RealType(299792458)
 	ThinCrabCavity(Strength,Frequency,Phase,Kcc,Name)
 end

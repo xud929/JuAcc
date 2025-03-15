@@ -1,11 +1,9 @@
 function plot(ax,s0::Float64,mag::Quadrupole;height=0.8,color="r")
     s1=s0+refS(mag)
-    if mag.K1>0.0
+    if mag.K1>=0.0
         h1,h2=height,0.0
-    elseif mag.K1<0.0
+    else
         h1,h2=0.0,-height
-	else
-        h1,h2=height/4,0.0
     end
     xx=[s0,s1,s1,s0,s0]
     yy=[h1,h1,h2,h2,h1]
@@ -60,19 +58,19 @@ function plot(ax,s0::Float64,mag::ThinKicker;height=1.0,color="k")
 end
 
 
-function plot(ax,s0::Float64,seq::Sequence)
+function plot(ax,s0::Float64,seq::Sequence;plot_func=plot)
     for mag in seq.Line
-		s0=plot(ax,s0,mag)
+		s0=plot_func(ax,s0,mag)
     end
 	return s0
 end
 
-plot(ax,seq::Sequence)=begin
+plot(ax,seq::Sequence;plot_func=plot)=begin
 	ax.spines["top"].set_visible(false)
     ax.spines["right"].set_visible(false)
     ax.spines["bottom"].set_visible(false)
     ax.spines["left"].set_visible(false)
     ax.get_xaxis().set_ticks([])
     ax.get_yaxis().set_ticks([])
-	plot(ax,0.0,seq)
+	plot_func(ax,0.0,seq)
 end

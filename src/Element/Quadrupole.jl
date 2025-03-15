@@ -7,7 +7,7 @@ mutable struct Quadrupole <: AbstractQuad
     Name::String
 end
 
-Quadrupole(;L::RealType,K1::RealType=RealType(0),K1S::Real=RealType(0),Name::String="")=Quadrupole(L,K1,K1S,Name)
+Quadrupole(;L::RealType=RealType(0),K1::RealType=RealType(0),K1S::Real=RealType(0),Name::String="")=Quadrupole(L,K1,K1S,Name)
 
 mutable struct ThinQuad <: AbstractQuad
     K1L::RealType

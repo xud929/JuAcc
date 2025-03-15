@@ -22,6 +22,13 @@ end
 
 Sequence(;Line::Array{T,1},Name::String="",Depth::IntType=0) where {T <: AbstractElement}=begin
 	if Depth!=0
+		for mag in Line
+			if isa(mag,AbstractSequence)
+				if Depth <= mag.Depth
+					throw(ArgumentError("Assigned Depth: $(Depth) is not greater than its subsequence Depth: $(mag.Name) = $(mag.Depth)"))
+				end
+			end
+		end
 		return Sequence(Line,Name,Depth)
 	else
 		for mag in Line
